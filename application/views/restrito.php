@@ -1,4 +1,4 @@
-    <!-- TELA VISUALIZADA APÓS USUARIO CONSEGUIR LOGAR -->    
+    <!-- === TELA VISUALIZADA APÓS USUARIO CONSEGUIR LOGAR === -->    
     <section style="min-height: calc(100vh - 83px);" class="light-bg">
         <div class="container">
 
@@ -11,6 +11,7 @@
             </div>
         </div>
 
+        <!-- ====== Botões para informação e logoff ====== -->
         <div class="row">
 				<div class="col-lg-offset-5 col-lg-2 text-center">
 	    			<div class="form-group">
@@ -20,14 +21,18 @@
                 </div>
             </div>
         </div>
-        
+        <!-- ==================== -->
+
+        <!-- ====== ABAS ====== -->
         <div class="container">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#trabalho" role="tab" data-toggle="tab">Trabalhos</a></li>
                 <li><a href="#equipe" role="tab" data-toggle="tab">Equipe</a></li>
                 <li><a href="#usuario" role="tab" data-toggle="tab">Usuários</a></li>
             </ul>
+        <!-- ================== -->
 
+        <!-- ====== ABA TRABALHO ====== -->
             <div class="tab-content">
                 <div id="trabalho" class="tab-pane active">
                     <div class="container-fluid">
@@ -52,9 +57,15 @@
                         </table>
                     </div>
                 </div>
+        <!-- ========================== -->
+
+            <!-- ====== ABA EQUIPE ====== -->
                 <div id="equipe" class="tab-pane">
                     <div class="container-fluid">
                         <h2 class="text-center"><strong>Gerenciar Equipe</strong></h2>
+                        <!-- BOTAO PARA TESTAR MODAL -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_equipe"><i class="fa fa-plus">&nbsp Acionar modal</i></button>
+                        <!-- ======================= -->
                         <a id="btn_add_equipe" class="btn btn-primary"><i class="fa fa-plus"> Adicionar equipe</i></a>
                         <table id="dt_equipe" class="table table-striped table-bordered">
                             <thead>
@@ -70,11 +81,16 @@
 
                         </table>
                     </div>
-
                 </div>
+            <!-- ========================== -->
+
+            <!-- ====== ABA USUARIO ====== -->
                 <div id="usuario" class="tab-pane">
                     <div class="container-fluid">
                         <h2 class="text-center"><strong>Gerenciar Usuários</strong></h2>
+                        <!-- BOTAO PARA TESTAR MODAL -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_usuario"><i class="fa fa-plus">&nbsp Acionar modal</i></button>
+                        <!-- ======================= -->
                         <a id="btn_add_usuarios" class="btn btn-primary"><i class="fa fa-plus"> Adicionar usuário</i></a>
                         <table id="dt_usuario" class="table table-striped table-bordered">
                             <thead>
@@ -91,11 +107,13 @@
                         </table>
                     </div>
                 </div>
+            <!-- ========================== -->
+
             </div>
         </div>
     </section>
 
-<!-- ================== MODAL ================== -->
+<!-- ================== MODAL aba TRABALHO ================== -->
 <div id="modal_trampo" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -149,7 +167,153 @@
                         </div>
                     </div>
 
+                    <!-- BOTÃO SALVAR -->
+                    <div class="form-group text-center">
+                        <button type="submit" id="salvar_trampo" class="btn btn-primary">
+                            <i class="fa fa-save"></i>&nbsp Salvar trabalho</i>
+                        </button>
+                        <span class="help-block"></span>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ================== MODAL aba EQUIPE ================== -->
+<div id="modal_equipe" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- TITULO DO MODAL -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <h4 class="modal-title"> Membro </h4>
+            </div>
+
+            <!-- CONTEUDO DO MODAL-->
+            <div class="modal-body">
+                <!-- INICIANDO FORMULARIO -->
+                <form id="form_equipe">
+
+                    <input name="equipe_id" hidden>
+
+                    <!-- CAMPO NOME -->
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Nome</label>
+                        <div class="col-lg-10">
+                            <input id="membro_nome" name="membro_nome" class="form-control" maxlength="100">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <!-- CAMPO IMAGEM -->
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Imagem</label>
+                        <div class="col-lg-10">
+                            <input type="file" accept="image/*" id="membro_foto" name="membro_foto" class="form-control">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
                     <!-- CAMPO DESCRIÇÃO -->
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Descrição</label>
+                        <div class="col-lg-10">
+                            <textarea id="membro_descricao" name="membro_descricao" class="form-control">
+                            </textarea>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <!-- BOTÃO SALVAR -->
+                    <div class="form-group text-center">
+                        <button type="submit" id="salvar_trampo" class="btn btn-primary">
+                            <i class="fa fa-save"></i>&nbsp Salvar membro </i>
+                        </button>
+                        <span class="help-block"></span>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ================== MODAL aba USUARIO ================== -->
+<div id="modal_usuario" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- TITULO DO MODAL -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <h4 class="modal-title"> Usuários </h4>
+            </div>
+
+            <!-- CONTEUDO DO MODAL-->
+            <div class="modal-body">
+                <!-- INICIANDO FORMULARIO -->
+                <form id="form_usuario">
+
+                    <input name="usuario_id" hidden>
+
+                    <!-- CAMPO Login -->
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Login</label>
+                        <div class="col-lg-10">
+                            <input id="usuario_login" name="usuario_login" class="form-control" maxlength="30">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <!-- CAMPO NOME -->
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Nome completo</label>
+                        <div class="col-lg-10">
+                            <input id="usuario_nome" name="usuario_nome" class="form-control" maxlength="100">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <!-- CAMPO EMAIL -->
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">E-mail</label>
+                        <div class="col-lg-10">
+                            <input id="usuario_email" name="usuario_email" class="form-control" maxlength="100">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <!-- CAMPO CONFIRMAR EMAIL -->
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Confirmar e-mail</label>
+                        <div class="col-lg-10">
+                            <input id="usuario_email_confirm" name="usuario_email_confirm" class="form-control" maxlength="100">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <!-- CAMPO SENHA -->
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Senha</label>
+                        <div class="col-lg-10">
+                            <input type="password" id="usuario_senha" name="usuario_senha" class="form-control">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <!-- CAMPO CONFIRMAR SENHA -->
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Confirmar senha</label>
+                        <div class="col-lg-10">
+                            <input type="password" id="usuario_senha_confirm" name="usuario_senha_confirm" class="form-control">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <!-- BOTÃO SALVAR -->
                     <div class="form-group text-center">
                         <button type="submit" id="salvar_trampo" class="btn btn-primary">
                             <i class="fa fa-save"></i>&nbsp Salvar </i>
