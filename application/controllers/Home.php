@@ -18,15 +18,14 @@ class Home extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function index()
-	{
-		//Exibe a tela principal
+	public function index(){
+		//Exibe a tela principal carregando 2 script especificos
 		$data = array(
             "scripts" => array(
 			"owl.carousel.min.js",
 			"theme-scripts.js"
-            )
+			)
         );
-		$this->template->show('home.php'); //home é a view
+		$this->template->show("home.php", $data); //home é a view
 	}
 }
