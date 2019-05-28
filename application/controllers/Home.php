@@ -21,6 +21,12 @@ class Home extends CI_Controller {
 	public function index()
 	{
 		//Exibe a tela principal
-		$this->template->show('home'); //home é a view
+		$data = array(
+            "scripts" => array(
+			"owl.carousel.min.js",
+			"theme-scripts.js"
+            )
+        );
+		$this->template->show('home.php'); //home é a view
 	}
 }

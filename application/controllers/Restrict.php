@@ -36,8 +36,8 @@ class Restrict extends CI_Controller {
     //Função que destroy a sessão, encerrando acesso
     public function logoff(){
         $this->session->sess_destroy();
-        //header("Location: " . base_url() . "/Restrict"); //Redireciona para a tela de login após deslogar
-        header("refresh:3;url=" . base_url() . "/Restrict"); //Redireciona para a tela de login após 3segundos
+        header("Location: " . base_url() . "/Restrict"); //Redireciona para a tela de login após deslogar
+        //header("refresh:3;url=" . base_url() . "/Restrict"); //Redireciona para a tela de login após 3segundos
     }
 
     //Função que verifica se os dados inseridos estão corretos
