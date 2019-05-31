@@ -38,8 +38,9 @@
                     <div class="container-fluid">
                         <h2 class="text-center"><strong>Gerenciar Trabalhos</strong></h2>
                         <!-- BOTAO PARA TESTAR MODAL -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_trampo"><i class="fa fa-plus">&nbsp Acionar modal</i></button>
+                        <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_trampo"><i class="fa fa-plus">&nbsp Acionar modal</i></button>-->
                         <!-- ======================= -->
+                        <!-- ====== BOTAO 1 ======-->
                         <a id="btn_add_trampo" class="btn btn-primary"><i class="fa fa-plus">&nbsp Adicionar trabalho</i></a>
                         <table id="dt_trampo" class="table table-striped table-bordered">
                             <thead>
@@ -64,8 +65,9 @@
                     <div class="container-fluid">
                         <h2 class="text-center"><strong>Gerenciar Equipe</strong></h2>
                         <!-- BOTAO PARA TESTAR MODAL -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_equipe"><i class="fa fa-plus">&nbsp Acionar modal</i></button>
+                        <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_equipe"><i class="fa fa-plus">&nbsp Acionar modal</i></button>-->
                         <!-- ======================= -->
+                        <!-- ====== BOTAO 2 ======-->
                         <a id="btn_add_equipe" class="btn btn-primary"><i class="fa fa-plus"> Adicionar equipe</i></a>
                         <table id="dt_equipe" class="table table-striped table-bordered">
                             <thead>
@@ -89,9 +91,10 @@
                     <div class="container-fluid">
                         <h2 class="text-center"><strong>Gerenciar Usuários</strong></h2>
                         <!-- BOTAO PARA TESTAR MODAL -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_usuario"><i class="fa fa-plus">&nbsp Acionar modal</i></button>
+                        <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_usuario"><i class="fa fa-plus">&nbsp Acionar modal</i></button>-->
                         <!-- ======================= -->
-                        <a id="btn_add_usuarios" class="btn btn-primary"><i class="fa fa-plus"> Adicionar usuário</i></a>
+                        <!-- ====== BOTAO 3 ======-->
+                        <a id="btn_add_usuario" class="btn btn-primary"><i class="fa fa-plus"> Adicionar usuário</i></a>
                         <table id="dt_usuario" class="table table-striped table-bordered">
                             <thead>
                                 <tr class="tableheader">
@@ -143,7 +146,19 @@
                     <div class="form-group">
                         <label class="col-lg-2 control-label">Imagem</label>
                         <div class="col-lg-10">
-                            <input type="file" accept="image/*" id="trampo_img" name="trampo_img" class="form-control">
+                            <!-- INSERÇÃO DE IMAGEM -->
+                            <!-- == ELEMENTO DO TIPO IMG ONDE IRÁ APARECER A IMAGEM ENVIADA -->
+                            <img id="trampo_img_path" name="trampo_img_path" src="" style="max-height: 400px; max-width: 400px">
+                            <label class="btn btn-block btn-info">
+                                <i class="fa fa-upload"></i>&nbsp; Importar Imagem
+                                <!-- == ARMAZENA O ARQUIVO NESSE INPUT == -->
+                                <input type="file" id="btn_upload_trampo_img" name="btn_upload_trampo_img" accept="image/*">
+                            </label>
+                            <!-- CAMINHO DO ARQUIVO -->
+                            <input id="trampo_img" name="trampo_img">
+                            <!-- ====== TESTE DE INSERÇÃO DE ARQUIVO ====== -->
+                            <!--<input type="file" accept="image/*" id="trampo_img" name="trampo_img" class="form-control">-->
+                            <!-- ===========================================-->
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -210,9 +225,21 @@
 
                     <!-- CAMPO IMAGEM -->
                     <div class="form-group">
-                        <label class="col-lg-2 control-label">Imagem</label>
+                        <label class="col-lg-2 control-label">Foto</label>
                         <div class="col-lg-10">
-                            <input type="file" accept="image/*" id="membro_foto" name="membro_foto" class="form-control">
+                            <!-- INSERÇÃO DE IMAGEM -->
+                            <!-- == ELEMENTO DO TIPO IMG ONDE IRÁ APARECER A IMAGEM ENVIADA -->
+                            <img id="membro_foto_path" name="membro_foto_path" src="" style="max-height: 400px; max-width: 400px">
+                            <label class="btn btn-block btn-info">
+                                <i class="fa fa-upload"></i>&nbsp; Importar Imagem
+                                <!-- == ARMAZENA O ARQUIVO NESSE INPUT == -->
+                                <input type="file" id="btn_upload_membro_foto" accept="image/*">  
+                            </label>
+                            <!-- CAMINHO DO ARQUIVO -->
+                            <input id="membro_foto" name="membro_foto">
+                            <!-- ====== TESTE DE INSERÇÃO DE ARQUIVO ====== -->
+                            <!--<input type="file" accept="image/*" id="membro_foto" name="membro_foto" class="form-control">-->
+                            <!-- ===========================================-->
                             <span class="help-block"></span>
                         </div>
                     </div>

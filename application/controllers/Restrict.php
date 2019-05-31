@@ -19,7 +19,13 @@ class Restrict extends CI_Controller {
     //Este IF serve para identificar se o usuário está logado
     //Se estiver direciona para a página RESTRITO.
     if ($this->session->userdata("user_id")) {
-        $this->template->show("restrito.php");
+        $data = array(
+            "scripts" => array(
+            "util.js",
+            "restrito.js"
+            )
+        );
+        $this->template->show("restrito.php", $data);
     //Se não estiver logado, é carregado a tela de login
     }else{
         //Assim que a pagina login.php é requisitada, a mesma carrega acrescentando 2 arquivos scripts
@@ -94,4 +100,46 @@ class Restrict extends CI_Controller {
         //Estando todas as informações corretas, converte este resultado em um arquivo TXT que é lido pelo Login.JS
         echo json_encode($json);     
     }
+
+    public function ajax_import_image(){
+
+        //Verifica se este controller está sendo acessado diretamente
+        //Se for passado por JSON é permitido o acesso.
+        if (!$this->input->is_ajax_request()){
+            exit("Você foi impedido de acessar a requisição diretamente!");
+        }
+
+        //$config é variavel reservada do codeIgniter para configurar uma biblioteca
+        //TMP é a pasta criada na raiz do projeto para armazenar arquivo antes de envia-lo ao banco
+        $config["upload_path"] = "./tmp/"; //caminho onde o arquivo será salvo temporariamente
+        $config["allowed_types"] = "gif|png|jpg"; //tipo de arquivo permitido
+        $config["overwrite"] = TRUE; //caso já houver um arquivo com nome igual, sobrescreve
+
+        //carrega a biblioteca UPLOAD que foi configurada acima
+        $this->load->library("upload", $config);
+
+        //Inserção do metodo AJAX para verificar via JSON
+        $json = array();
+        $json["status"] = 1;
+
+        //Condição para testar se o arquivo é diferente de gif/png/jpg
+        if(!$this->upload->do_upload("image_file")) {
+            $json["status"] = 0;
+            $json["error"] = $this->upload->display_errors("",""); //display_error exibe o tipo erro (função nativa da biblioteca UPLOAD)
+        } else{
+            //Caso o tipo da imagem for aceito, é especificado o tamanho(peso) 1024kb (1mb) é armazenado no DATA
+            if ($this->upload->data()["file_size"] <= 1024){
+                $file_name = $this->upload->data()["file_name"]; //nomeando a imagem enviada
+                $json["img_path"] = BASE_URL() . "tmp/" . $file_name; //retorna o nome da imagem enviada como arquivo JSON
+            } else{
+                $json["status"] = 0;
+                $json["error"] = "Arquivo não deve ser maior que 1 MB!";
+                }
+
+        }
+
+        echo json_encode($json);
+
+    }
+
 }

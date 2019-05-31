@@ -764,3 +764,11 @@ and (max-width : 480px) {
     font-size: 20px;
 }
 }
+
+#btn_upload_trampo_img {
+    display: none;
+}
+
+#btn_upload_membro_foto {
+    display: none;
+}
