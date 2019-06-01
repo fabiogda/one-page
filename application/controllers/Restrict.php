@@ -3,12 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Restrict extends CI_Controller {
 
-    //Função construtora de sessão
+    //Função construtora de sessão =======================
     public function __construct(){
         parent::__construct();
         $this->load->library("session");
     }
 
+    //Função que verifica se o USUARIO esta LOGADO ========================
     public function index(){
     //echo password_hash ("123456", PASSWORD_DEFAULT); //codifica a senha
     //Testa a conexão passando como parametro o ID
@@ -39,14 +40,14 @@ class Restrict extends CI_Controller {
     }
     }
 
-    //Função que destroy a sessão, encerrando acesso
+    //Função que destroy a sessão, encerrando acesso ============================
     public function logoff(){
         $this->session->sess_destroy();
         header("Location: " . base_url() . "/Restrict"); //Redireciona para a tela de login após deslogar
         //header("refresh:3;url=" . base_url() . "/Restrict"); //Redireciona para a tela de login após 3segundos
     }
 
-    //Função que verifica se os dados inseridos estão corretos
+    //Função que verifica se os dados inseridos estão corretos ========================
     public function ajax_login(){
 
         //Verifica se este controller está sendo acessado diretamente
@@ -101,6 +102,7 @@ class Restrict extends CI_Controller {
         echo json_encode($json);     
     }
 
+    //FUNÇÃO AJAX QUE FAZ UM PRÉ-LOAD DA IMAGEM PARA A PASTA TEMPORARIA (TMP) ========================
     public function ajax_import_image(){
 
         //Verifica se este controller está sendo acessado diretamente
@@ -136,6 +138,83 @@ class Restrict extends CI_Controller {
                 $json["error"] = "Arquivo não deve ser maior que 1 MB!";
                 }
 
+        }
+
+        echo json_encode($json);
+
+    }
+
+    //Função para salvar o TRABALHO ============================================
+    public function ajax_save_trabalho(){
+
+        //Verifica se este controller está sendo acessado diretamente
+        //Se for passado por JSON é permitido o acesso.
+        if (!$this->input->is_ajax_request()){
+            exit("Você foi impedido de acessar a requisição diretamente!");
+        }
+
+        //Inserção do metodo AJAX para verificar via JSON
+        $json = array();
+        $json["status"] = 1;
+        $json["error_list"] = 1;
+
+        //carrega a model TRABALHO
+        $this->load->model("trabalho_model");
+
+        //recebe todos os campos da requisição do formulário
+        $data = $this->input->post();
+
+        //Verifica se o campo NOME do TRABALHO está vazio ou está sendo duplicado
+        if (empty($data["trampo_nome"])){
+            $json["error_list"]["#trampo_nome"] = "Nome do trabalho é obrigatório!";
+        } else {
+            if ($this->trabalho_model->is_duplicated("trampo_nome", $data["trampo_nome"], $data["trabalho_id"])){
+                //parametros passados para a model Trabalho (trabalho_nome = field, $data[trabalho] = value, $data[id] = id)
+                $json["error_list"]["#trampo_nome"] = "Nome do trabalho já existe!";
+            }
+        }
+
+
+        //conversão de string para float
+        $data["trampo_duracao"] = floatval($data["trampo_duracao"]);
+        //Validação da duração
+        if (empty($data["trampo_duracao"])){
+            $json["error_list"]["#trampo_duracao"] = "A duração é obrigatória!";
+        } else {
+            if (!($data["trampo_duracao"] > 0 && $data["trampo_duracao"] < 100)){
+                //parametros passados para a model (trampo_nome = field, $data[trampo] = value, $data[id] = id)
+                $json["error_list"]["#trampo_duracao"] = "Duração do curso deve ser maior que 0 (h) e menor que 100 (h)!";
+            }
+        }
+
+        //Verifica se houve algum erro durante o processo
+        if (empty($json["error_list"])){
+            $json["status"] = 0;
+        } else {
+            //Verifica se o campo da imagem foi passado como parametro
+            if (!empty($data["trampo_duracao"])){ //este campo possui este valor http://localhost:8080/tmp/imagemEnviada.jpg
+                
+                //mover o arquivo da pasta temporaria para pasta final
+                //getcwd() é uma função PHP que percorre os diretórios até a pasta do projeto
+                $file_name = basename($data["trampo_img"]); //pega o nome do arquivo (imagemEnviada.jpg)
+                $old_path = getcwd() . "/tmp/" . $file_name; //indica onde a pasta onde ele esta
+                $new_path = getcwd() . "/public/images/trampo/" . $file_name; //aponta para o novo local
+                rename($old_path, $new_path); //move os arquivo (caminho antigo -> caminho novo)
+
+                //removendo formato URL para salvar no banco
+                $data["trampo_img"] = "/public/images/trampo" . $file_name;
+            }
+
+            //Verifica se será INSERIDO ou ATUALIZADO no banco
+            //se estiver vazio INSERE
+            if (empty($data["trampo_id"])){
+                $this->trabalho_model->model->insert($data);
+            } else {
+                //senão ATUALIZA no banco (para atualizar é necessário o ID, este ID é gerado para cada formulário salvo no INPUT HIDDEN abaixo da tag FORM)
+                $trampo_id = $data["trampo_id"];
+                unset($data["trampo_id"]); //remove o hash do ID e mantem armazenado temporariamente na variavel $trampo_id
+                $this->trabalho_model->model->update($trampo_id, $data); //$data significa todos os campos do formulário, não pode conter o ID junto, por isso é separado acima
+            }
         }
 
         echo json_encode($json);

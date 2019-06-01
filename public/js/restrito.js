@@ -16,8 +16,10 @@ $(function(){
     });
 
     //ACIONA FUNÇÃO AJAX DO ARQUIVO UTIL.JS
-    //trampo_img_path é a da <img>
-    //trampo_img pertence ao input que faz o caminho do arquivo para o controller
+    //btn_upload_trampo_img é o input que está com a imagem armazenada
+    //parametros passados para util.js (this significa que é o [btn_upload_trampo_img], trampo_img_path e trampo_img)
+    //trampo_img_path é o local onde aparecerá um preview da imagem (arquivo temporario) <img>
+    //trampo_img é o local que exibe o caminho onde esta o arquivo
     //Formulário TRABALHO
     $("#btn_upload_trampo_img").change(function() {
         uploadImg($(this), $("#trampo_img_path"), $("#trampo_img"));

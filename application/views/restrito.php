@@ -152,9 +152,9 @@
                             <label class="btn btn-block btn-info">
                                 <i class="fa fa-upload"></i>&nbsp; Importar Imagem
                                 <!-- == ARMAZENA O ARQUIVO NESSE INPUT == -->
-                                <input type="file" id="btn_upload_trampo_img" name="btn_upload_trampo_img" accept="image/*">
+                                <input type="file" id="btn_upload_trampo_img" name="btn_upload_trampo_img" accept="image/*"><!-- Este botão está oculto para melhor UI/UX -->
                             </label>
-                            <!-- CAMINHO DO ARQUIVO -->
+                            <!-- EXIBE O CAMINHO DO ARQUIVO -->
                             <input id="trampo_img" name="trampo_img">
                             <!-- ====== TESTE DE INSERÇÃO DE ARQUIVO ====== -->
                             <!--<input type="file" accept="image/*" id="trampo_img" name="trampo_img" class="form-control">-->
@@ -165,9 +165,9 @@
 
                     <!-- CAMPO DURAÇÃO -->
                     <div class="form-group">
-                        <label class="col-lg-2 control-label">Duração</label>
+                        <label class="col-lg-2 control-label">Duração (h)</label>
                         <div class="col-lg-10">
-                            <input type="number" min="0" id="trampo_duracao" name="trampo_duracao" class="form-control">
+                            <input type="number" step="0.1" id="trampo_duracao" name="trampo_duracao" class="form-control">
                             <span class="help-block"></span>
                         </div>
                     </div>
