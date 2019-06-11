@@ -129,7 +129,7 @@
             <!-- CONTEUDO DO MODAL-->
             <div class="modal-body">
                 <!-- INICIANDO FORMULARIO -->
-                <form id="form_trampo">
+                <form id="form_trampo" method="POST">
 
                     <input name="trampo_id" hidden>
 
@@ -143,11 +143,11 @@
                     </div>
 
                     <!-- CAMPO IMAGEM -->
-                    <div class="form-group">
+                    <div class="form-group" method="POST">
                         <label class="col-lg-2 control-label">Imagem</label>
                         <div class="col-lg-10">
                             <!-- INSERÇÃO DE IMAGEM -->
-                            <!-- == ELEMENTO DO TIPO IMG ONDE IRÁ APARECER A IMAGEM ENVIADA -->
+                            <!-- == ELEMENTO DO TIPO IMG ONDE IRÁ APARECER A IMAGEM ENVIADA (PREVIEW) -->
                             <img id="trampo_img_path" name="trampo_img_path" src="" style="max-height: 400px; max-width: 400px">
                             <label class="btn btn-block btn-info">
                                 <i class="fa fa-upload"></i>&nbsp; Importar Imagem
@@ -184,8 +184,8 @@
 
                     <!-- BOTÃO SALVAR -->
                     <div class="form-group text-center">
-                        <button type="submit" id="salvar_trampo" class="btn btn-primary">
-                            <i class="fa fa-save"></i>&nbsp Salvar trabalho</i>
+                        <button type="submit" id="btn_salvar_trampo" class="btn btn-primary">
+                            <i class="fa fa-save"></i>&nbsp; Salvar trabalho</i>
                         </button>
                         <span class="help-block"></span>
                     </div>
@@ -256,8 +256,8 @@
 
                     <!-- BOTÃO SALVAR -->
                     <div class="form-group text-center">
-                        <button type="submit" id="salvar_trampo" class="btn btn-primary">
-                            <i class="fa fa-save"></i>&nbsp Salvar membro </i>
+                        <button type="submit" id="salvar_equipe" class="btn btn-primary">
+                            <i class="fa fa-save"></i>&nbsp; Salvar membro </i>
                         </button>
                         <span class="help-block"></span>
                     </div>
@@ -342,8 +342,8 @@
 
                     <!-- BOTÃO SALVAR -->
                     <div class="form-group text-center">
-                        <button type="submit" id="salvar_trampo" class="btn btn-primary">
-                            <i class="fa fa-save"></i>&nbsp Salvar </i>
+                        <button type="submit" id="salvar_usuario" class="btn btn-primary">
+                            <i class="fa fa-save"></i>&nbsp; Salvar </i>
                         </button>
                         <span class="help-block"></span>
                     </div>

@@ -156,48 +156,49 @@ class Restrict extends CI_Controller {
         //Inserção do metodo AJAX para verificar via JSON
         $json = array();
         $json["status"] = 1;
-        $json["error_list"] = 1;
+        $json["error_list"] = array();
 
         //carrega a model TRABALHO
-        $this->load->model("trabalho_model");
+        $this->load->model("trampo_model");
 
-        //recebe todos os campos da requisição do formulário
+        //recebe todos os campos do FORMULÁRIO ****
         $data = $this->input->post();
 
-        //Verifica se o campo NOME do TRABALHO está vazio ou está sendo duplicado
+        //Verifica se o campo NOME do TRABALHO está vazio 
         if (empty($data["trampo_nome"])){
             $json["error_list"]["#trampo_nome"] = "Nome do trabalho é obrigatório!";
         } else {
-            if ($this->trabalho_model->is_duplicated("trampo_nome", $data["trampo_nome"], $data["trabalho_id"])){
-                //parametros passados para a model Trabalho (trabalho_nome = field, $data[trabalho] = value, $data[id] = id)
+            //ou se está sendo duplicado
+            if ($this->trampo_model->is_duplicated("trampo_nome", $data["trampo_nome"], $data["trampo_id"])) {
+                //parametros passados para a model Trampo (trampo_nome = field, $data[trampo] = value, $data[id] = id)
                 $json["error_list"]["#trampo_nome"] = "Nome do trabalho já existe!";
             }
         }
 
 
-        //conversão de string para float
+        //conversão de string para float (do campo duração do trabalho)
         $data["trampo_duracao"] = floatval($data["trampo_duracao"]);
         //Validação da duração
         if (empty($data["trampo_duracao"])){
             $json["error_list"]["#trampo_duracao"] = "A duração é obrigatória!";
         } else {
-            if (!($data["trampo_duracao"] > 0 && $data["trampo_duracao"] < 100)){
+            if (! ($data["trampo_duracao"] > 0 && $data["trampo_duracao"] < 100)){
                 //parametros passados para a model (trampo_nome = field, $data[trampo] = value, $data[id] = id)
                 $json["error_list"]["#trampo_duracao"] = "Duração do curso deve ser maior que 0 (h) e menor que 100 (h)!";
             }
         }
 
         //Verifica se houve algum erro durante o processo
-        if (empty($json["error_list"])){
+        if (!empty($json["error_list"])){ //se nao estiver vazio, tendo conteudo dentro o status tem que ser 0
             $json["status"] = 0;
         } else {
             //Verifica se o campo da imagem foi passado como parametro
-            if (!empty($data["trampo_duracao"])){ //este campo possui este valor http://localhost:8080/tmp/imagemEnviada.jpg
+            if (!empty($data["trampo_img"])){ //este campo possui este valor http://localhost:8080/tmp/imagemEnviada.jpg
                 
                 //mover o arquivo da pasta temporaria para pasta final
                 //getcwd() é uma função PHP que percorre os diretórios até a pasta do projeto
                 $file_name = basename($data["trampo_img"]); //pega o nome do arquivo (imagemEnviada.jpg)
-                $old_path = getcwd() . "/tmp/" . $file_name; //indica onde a pasta onde ele esta
+                $old_path = getcwd() . "/tmp/" . $file_name; //indica em qual pasta ele esta (o arquivo está na pasta TMP)
                 $new_path = getcwd() . "/public/images/trampo/" . $file_name; //aponta para o novo local
                 rename($old_path, $new_path); //move os arquivo (caminho antigo -> caminho novo)
 
@@ -208,12 +209,12 @@ class Restrict extends CI_Controller {
             //Verifica se será INSERIDO ou ATUALIZADO no banco
             //se estiver vazio INSERE
             if (empty($data["trampo_id"])){
-                $this->trabalho_model->model->insert($data);
+                $this->trampo_model->insert($data);
             } else {
                 //senão ATUALIZA no banco (para atualizar é necessário o ID, este ID é gerado para cada formulário salvo no INPUT HIDDEN abaixo da tag FORM)
                 $trampo_id = $data["trampo_id"];
-                unset($data["trampo_id"]); //remove o hash do ID e mantem armazenado temporariamente na variavel $trampo_id
-                $this->trabalho_model->model->update($trampo_id, $data); //$data significa todos os campos do formulário, não pode conter o ID junto, por isso é separado acima
+                unset($data["trampo_id"]); //remove o hash do ID gerado para o novo formulário e mantem armazenado temporariamente na variavel $trampo_id
+                $this->trampo_model->update($trampo_id, $data); //$data significa todos os campos do formulário, não pode conter o ID junto, por isso é separado acima
             }
         }
 
@@ -222,3 +223,4 @@ class Restrict extends CI_Controller {
     }
 
 }
+

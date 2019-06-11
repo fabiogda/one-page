@@ -2,6 +2,9 @@ $(function(){
 
     //ACIONAR MODAL TRABALHO
     $("#btn_add_trampo").click(function(){
+        clearErros();
+        $("#form_trampo")[0].reset(); //limpa todos os campos do tipo input no modal
+        $("#form_trampo").attr("src", ""); //limpa o campo IMG
         $("#modal_trampo").modal();
     });
 
@@ -22,12 +25,38 @@ $(function(){
     //trampo_img é o local que exibe o caminho onde esta o arquivo
     //Formulário TRABALHO
     $("#btn_upload_trampo_img").change(function() {
-        uploadImg($(this), $("#trampo_img_path"), $("#trampo_img"));
+        uploadImg($(this), $("#trampo_img_path"), $("#trampo_img")); //this significa #btn_upload_trampo_img
     });
 
     //Formulário EQUIPE
     $("#btn_upload_membro_foto").change(function() {
-        uploadImg($(this), $("#membro_foto_path"), $("#membro_foto"));
+        uploadImg($(this), $("#membro_foto_path"), $("#membro_foto")); //this significa #btn_upload_membro_foto
     });
+
+    //Envio do formulário TRAMPO
+    $("#form_trampo").submit(function() {
+
+        $.ajax ({
+            type: "post",
+            url: BASE_URL + "/Restrict/ajax_save_trabalho",
+            dataType: "json",
+            data: $(this).serialize(), //this significa #form_trampo
+
+            beforeSend: function(){
+                clearErros();
+                $("#btn_salvar_trampo").siblings(".help-block").html(loadingImg());
+            },
+
+            success: function(response) { //response é a resposta da função ajax_salvar_trabalho do controller
+                clearErros();
+                if(response["status"]){
+                    $("#modal_trampo").modal("hide");
+                } else{
+                    showErrorsModal(response["error_list"]);
+                }
+            }
+        })
+        return false;
+    })
 
 })

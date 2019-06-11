@@ -25,6 +25,18 @@ function showErrors(error_list){
     })
 }
 
+// Função para exibir erros do Modal
+function showErrorsModal(error_list){
+    clearErros();
+
+    $.each(error_list, function(id, message){
+        $(id).parent().parent().addClass("has-error");
+        $(id).siblings(".help-block").html(message)
+        //parent() serve para selecionar uma <div> anterior
+        //siblings() é o seletor de classe onde aparecerá a mensagem
+    })
+}
+
 // Função para exibir imagem de LOADING
 function loadingImg(message=""){
     return "<i class='fa fa-spinner fa-spin fa-3x' </i>&nbsp;" + message;
