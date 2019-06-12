@@ -210,9 +210,9 @@
             <!-- CONTEUDO DO MODAL-->
             <div class="modal-body">
                 <!-- INICIANDO FORMULARIO -->
-                <form id="form_equipe">
+                <form id="form_equipe" method="POST">
 
-                    <input name="equipe_id" hidden>
+                    <input name="membro_id" hidden>
 
                     <!-- CAMPO NOME -->
                     <div class="form-group">
@@ -256,7 +256,7 @@
 
                     <!-- BOTÃO SALVAR -->
                     <div class="form-group text-center">
-                        <button type="submit" id="salvar_equipe" class="btn btn-primary">
+                        <button type="submit" id="btn_salvar_equipe" class="btn btn-primary">
                             <i class="fa fa-save"></i>&nbsp; Salvar membro </i>
                         </button>
                         <span class="help-block"></span>

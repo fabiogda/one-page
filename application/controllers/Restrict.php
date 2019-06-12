@@ -203,7 +203,7 @@ class Restrict extends CI_Controller {
                 rename($old_path, $new_path); //move os arquivo (caminho antigo -> caminho novo)
 
                 //removendo formato URL para salvar no banco
-                $data["trampo_img"] = "/public/images/trampo" . $file_name;
+                $data["trampo_img"] = "/public/images/trampo/" . $file_name;
             }
 
             //Verifica se será INSERIDO ou ATUALIZADO no banco
@@ -215,6 +215,65 @@ class Restrict extends CI_Controller {
                 $trampo_id = $data["trampo_id"];
                 unset($data["trampo_id"]); //remove o hash do ID gerado para o novo formulário e mantem armazenado temporariamente na variavel $trampo_id
                 $this->trampo_model->update($trampo_id, $data); //$data significa todos os campos do formulário, não pode conter o ID junto, por isso é separado acima
+            }
+        }
+
+        echo json_encode($json);
+
+    }
+
+    //Função para salvar EQUIPE ============================================
+    public function ajax_save_equipe(){
+
+        //Verifica se este controller está sendo acessado diretamente
+        //Se for passado por JSON é permitido o acesso.
+        if (!$this->input->is_ajax_request()){
+            exit("Você foi impedido de acessar a requisição diretamente!");
+        }
+
+        //Inserção do metodo AJAX para verificar via JSON
+        $json = array();
+        $json["status"] = 1;
+        $json["error_list"] = array();
+
+        //carrega a model EQUIPE
+        $this->load->model("equipe_model");
+
+        //recebe todos os campos do FORMULÁRIO ****
+        $data = $this->input->post();
+
+        //Verifica se o campo NOME do MEMBRO está vazio 
+        if (empty($data["membro_nome"])){
+            $json["error_list"]["#membro_nome"] = "Nome do membro da equipe é obrigatório!";
+        }
+
+        //Verifica se houve algum erro durante o processo
+        if (!empty($json["error_list"])){ //se nao estiver vazio, ou seja, tendo conteudo dentro o status tem que ser 0
+            $json["status"] = 0;
+        } else {
+            //Verifica se o campo da imagem foi passado como parametro
+            if (!empty($data["membro_foto"])){ //este campo possui este valor http://localhost:8080/tmp/imagemEnviada.jpg
+                
+                //mover o arquivo da pasta temporaria para pasta final
+                //getcwd() é uma função PHP que percorre os diretórios até a pasta do projeto
+                $file_name = basename($data["membro_foto"]); //pega o nome do arquivo (imagemEnviada.jpg)
+                $old_path = getcwd() . "/tmp/" . $file_name; //indica em qual pasta ele esta (o arquivo está na pasta TMP)
+                $new_path = getcwd() . "/public/images/equipe/" . $file_name; //aponta para o novo local
+                rename($old_path, $new_path); //move os arquivo (caminho antigo -> caminho novo)
+
+                //removendo formato URL para salvar no banco
+                $data["membro_foto"] = "/public/images/equipe/" . $file_name;
+            }
+
+            //Verifica se será INSERIDO ou ATUALIZADO no banco
+            //se estiver vazio INSERE
+            if (empty($data["membro_id"])){
+                $this->equipe_model->insert($data);
+            } else {
+                //senão ATUALIZA no banco (para atualizar é necessário o ID, este ID é gerado para cada formulário salvo no INPUT HIDDEN abaixo da tag FORM)
+                $membro_id = $data["membro_id"];
+                unset($data["membro_id"]); //remove o hash do ID gerado para o novo formulário e mantem armazenado temporariamente na variavel $trampo_id
+                $this->equipe_model->update($membro_id, $data); //$data significa todos os campos do formulário, não pode conter o ID junto, por isso é separado acima
             }
         }
 
