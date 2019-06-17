@@ -15,7 +15,7 @@
         <div class="row">
 				<div class="col-lg-offset-5 col-lg-2 text-center">
 	    			<div class="form-group">
-                        <a class="btn btn-link"><i class="fa fa-user"></i></a>
+                        <a id="btn_your_user" class="btn btn-link" user_id="<?=$user_id ?>"><i class="fa fa-user"></i></a>
                         <a class="btn btn-link" href="restrict/logoff"><i class="fa fa-sign-out"></i></a>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                 <!-- INICIANDO FORMULARIO -->
                 <form id="form_trampo" method="POST">
 
-                    <input name="trampo_id" hidden>
+                    <input id="trampo_id" name="trampo_id" hidden>
 
                     <!-- CAMPO NOME -->
                     <div class="form-group">
@@ -212,7 +212,7 @@
                 <!-- INICIANDO FORMULARIO -->
                 <form id="form_equipe" method="POST">
 
-                    <input name="membro_id" hidden>
+                    <input id="membro_id" name="membro_id" hidden>
 
                     <!-- CAMPO NOME -->
                     <div class="form-group">
@@ -284,7 +284,7 @@
                 <!-- INICIANDO FORMULARIO -->
                 <form id="form_usuario" method="POST">
 
-                    <input name="user_id" hidden>
+                    <input id="user_id" name="user_id" hidden>
 
                     <!-- CAMPO Login -->
                     <div class="form-group">

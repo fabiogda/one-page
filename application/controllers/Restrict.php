@@ -24,7 +24,8 @@ class Restrict extends CI_Controller {
             "scripts" => array(
             "util.js",
             "restrito.js"
-            )
+            ),
+            "user_id" => $this->session->userdata("user_id") //transforma em variavel para o PHP
         );
         $this->template->show("restrito.php", $data);
     //Se não estiver logado, é carregado a tela de login
@@ -34,7 +35,7 @@ class Restrict extends CI_Controller {
             "scripts" => array(
             "util.js",
             "login.js"
-            )
+            ),
         );
         $this->template->show("login.php",$data);
     }
@@ -363,6 +364,39 @@ class Restrict extends CI_Controller {
                 $this->users_model->update($usuario_id, $data); //$data significa todos os campos do formulário, não pode conter o ID junto, por isso é separado acima
             }
         }
+
+        echo json_encode($json);
+
+    }
+
+    public function ajax_get_user_data(){
+
+        //Verifica se este controller está sendo acessado diretamente
+        //Se for passado por JSON é permitido o acesso.
+        if (!$this->input->is_ajax_request()){
+            exit("Você foi impedido de acessar a requisição diretamente!");
+        }
+
+        //Inserção do metodo AJAX para verificar via JSON
+        $json = array();
+        $json["status"] = 1;
+        $json["input"] = array();
+
+        //carrega a model USERS
+        $this->load->model("users_model");
+
+        //trazendo informação do usuario do banco
+        $user_id = $this->input->post("user_id"); //recebe o ID do usuario LOGADO pelo form do USUARIO
+        $data = $this->users_model->get_data($user_id)->result_array()[0]; //realiza a funçao select na model do usuario e guarda o resultado na variavel $data
+        //criamos a variavel JSON para armazenar cada campo que foi trazido do banco
+        //a variavel $data que contem os dados do banco, preenche o JSON que envia para a tela
+        $json["input"]["user_id"] = $data["user_id"];
+        $json["input"]["user_login"] = $data["user_login"];
+        $json["input"]["user_full_name"] = $data["user_full_name"];
+        $json["input"]["user_email"] = $data["user_email"];
+        $json["input"]["user_email_confirm"] = $data["user_email"];
+        $json["input"]["user_senha"] = $data["password_hash"];
+        $json["input"]["user_senha_confirm"] = $data["password_hash"];
 
         echo json_encode($json);
 

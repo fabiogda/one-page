@@ -10,7 +10,7 @@ class Trampo_model extends CI_Model{
 
     //Função para trazer as informaçoẽs do TRABALHO ============
     //Parametro $select = NULL é padrão
-    public function get_data($id, $select = NULL){
+    public function get_data($id){
 
     //traz uma ou todas as informações da tabela
     $this->db->from("trabalho");

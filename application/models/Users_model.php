@@ -32,9 +32,9 @@ class Users_model extends CI_Model{
     public function get_data($id, $select = NULL){
 
         //verifica se o arquivo foi passado corretamente é efetuado a busca
-        if(!empty($select)) {
-            $this->db->select($$select);
-        }
+        //if(!empty($select)) {
+          //  $this->db->select($select);
+        //}
 
         //traz uma ou todas as informações da tabela
         $this->db->from("users");

@@ -116,4 +116,25 @@ $(function(){
         return false;
     })
 
+    //Exibe o formulário do USUARIO logado =====================
+    $("#btn_your_user").click(function() {
+
+        $.ajax ({
+            type: "post",
+            url: BASE_URL + "/Restrict/ajax_get_user_data",
+            dataType: "json",
+            data: {"user_id": $(this).attr("user_id")},
+
+            success: function(response) { //response é a resposta da função ajax_get_user_data 
+                clearErros(); // limpa os erros
+                $("#form_usuario")[0].reset(); //limpa o form usuario
+                $.each(response["input"], function(id, value) { //chama os inputs preenchidos do controller que fez o select
+                    $("#"+id).val(value); //envia as informações para o form em seus respectivos ID's
+                });
+                $("#modal_usuario").modal(); // abre o modal
+            }
+        })
+        return false;
+    })
+
 })
