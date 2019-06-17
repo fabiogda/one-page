@@ -282,15 +282,15 @@
             <!-- CONTEUDO DO MODAL-->
             <div class="modal-body">
                 <!-- INICIANDO FORMULARIO -->
-                <form id="form_usuario">
+                <form id="form_usuario" method="POST">
 
-                    <input name="usuario_id" hidden>
+                    <input name="user_id" hidden>
 
                     <!-- CAMPO Login -->
                     <div class="form-group">
                         <label class="col-lg-2 control-label">Login</label>
                         <div class="col-lg-10">
-                            <input id="usuario_login" name="usuario_login" class="form-control" maxlength="30">
+                            <input id="user_login" name="user_login" class="form-control" maxlength="30">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -299,7 +299,7 @@
                     <div class="form-group">
                         <label class="col-lg-2 control-label">Nome completo</label>
                         <div class="col-lg-10">
-                            <input id="usuario_nome" name="usuario_nome" class="form-control" maxlength="100">
+                            <input id="user_full_name" name="user_full_name" class="form-control" maxlength="100">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -308,7 +308,7 @@
                     <div class="form-group">
                         <label class="col-lg-2 control-label">E-mail</label>
                         <div class="col-lg-10">
-                            <input id="usuario_email" name="usuario_email" class="form-control" maxlength="100">
+                            <input id="user_email" name="user_email" class="form-control" maxlength="100">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -317,7 +317,7 @@
                     <div class="form-group">
                         <label class="col-lg-2 control-label">Confirmar e-mail</label>
                         <div class="col-lg-10">
-                            <input id="usuario_email_confirm" name="usuario_email_confirm" class="form-control" maxlength="100">
+                            <input id="user_email_confirm" name="user_email_confirm" class="form-control" maxlength="100">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -326,7 +326,7 @@
                     <div class="form-group">
                         <label class="col-lg-2 control-label">Senha</label>
                         <div class="col-lg-10">
-                            <input type="password" id="usuario_senha" name="usuario_senha" class="form-control">
+                            <input type="password" id="user_senha" name="user_senha" class="form-control">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -335,14 +335,14 @@
                     <div class="form-group">
                         <label class="col-lg-2 control-label">Confirmar senha</label>
                         <div class="col-lg-10">
-                            <input type="password" id="usuario_senha_confirm" name="usuario_senha_confirm" class="form-control">
+                            <input type="password" id="user_senha_confirm" name="user_senha_confirm" class="form-control">
                             <span class="help-block"></span>
                         </div>
                     </div>
 
                     <!-- BOTÃO SALVAR -->
                     <div class="form-group text-center">
-                        <button type="submit" id="salvar_usuario" class="btn btn-primary">
+                        <button type="submit" id="btn_salvar_usuario" class="btn btn-primary">
                             <i class="fa fa-save"></i>&nbsp; Salvar </i>
                         </button>
                         <span class="help-block"></span>

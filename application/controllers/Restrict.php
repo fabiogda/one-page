@@ -281,5 +281,92 @@ class Restrict extends CI_Controller {
 
     }
 
+    //Função para salvar o USUARIO ============================================
+    public function ajax_save_user(){
+
+        //Verifica se este controller está sendo acessado diretamente
+        //Se for passado por JSON é permitido o acesso.
+        if (!$this->input->is_ajax_request()){
+            exit("Você foi impedido de acessar a requisição diretamente!");
+        }
+
+        //Inserção do metodo AJAX para verificar via JSON
+        $json = array();
+        $json["status"] = 1;
+        $json["error_list"] = array();
+
+        //carrega a model USERS
+        $this->load->model("users_model");
+
+        //recebe todos os campos do FORMULÁRIO ****
+        $data = $this->input->post();
+
+        //Verifica se o campo NOME do USUARIO está vazio / duplicado
+        if (empty($data["user_login"])){
+            $json["error_list"]["#user_login"] = "Login é obrigatório!";
+        } else {
+            if ($this->users_model->is_duplicated("user_login", $data["user_login"], $data["user_id"])) {
+                $json["error_list"]["#user_login"] = "Este login já existe!";
+            }
+        }
+
+        //Verifica se o campo NOME está vazio 
+        if (empty($data["user_full_name"])){
+            $json["error_list"]["#user_full_name"] = "Nome do usuário é obrigatório!";
+        }
+
+        //Verifica se o campo E-MAIL está vazio / duplicado / repetido corretamente
+        if (empty($data["user_email"])){
+            $json["error_list"]["#user_email"] = "E-mail é obrigatório!";
+        } else {
+            if ($this->users_model->is_duplicated("user_email", $data["user_email"], $data["user_id"])) {
+                $json["error_list"]["#user_email"] = "E-mail já existe!";
+            } else {
+                if ($data["user_email"] != $data["user_email_confirm"]) {
+                    $json["error_list"]["#user_email"] = "";
+                    $json["error_list"]["#user_email_confirm"] = "E-mails não conferem";
+                }
+            }
+        }
+
+        //Verifica se o campo SENHA está vazio / repetido corretamente
+        if (empty($data["user_senha"])){
+            $json["error_list"]["#user_senha"] = "Senha é obrigatório!";
+        } else {
+            if ($data["user_senha"] != $data["user_senha_confirm"]) {
+                $json["error_list"]["#user_senha"] = "";
+                $json["error_list"]["#user_senha_confirm"] = "Senhas não conferem";
+            }
+        }
+
+        //Verifica se houve algum erro durante o processo
+        if (!empty($json["error_list"])){ //se nao estiver vazio, tendo conteudo dentro o status tem que ser 0
+            $json["status"] = 0;
+        } else{
+
+            //"cria" um campo no formulário com nome password_hash e transforma a senha em uma HASH
+            $data["password_hash"] = password_hash($data["user_senha"], PASSWORD_DEFAULT);
+
+            //Remove esses campos que irão para o banco de dados
+            unset($data["user_senha"]);
+            unset($data["user_senha_confirm"]);
+            unset($data["user_email_confirm"]);
+
+            //Verifica se será INSERIDO ou ATUALIZADO no banco
+            //se estiver vazio INSERE
+            if (empty($data["user_id"])){
+                $this->users_model->insert($data);
+            } else {
+                //senão ATUALIZA no banco (para atualizar é necessário o ID, este ID é gerado para cada formulário salvo no INPUT HIDDEN abaixo da tag FORM)
+                $usuario_id = $data["usuario_id"];
+                unset($data["usuario_id"]); //remove o hash do ID gerado para o novo formulário e mantem armazenado temporariamente na variavel $trampo_id
+                $this->users_model->update($usuario_id, $data); //$data significa todos os campos do formulário, não pode conter o ID junto, por isso é separado acima
+            }
+        }
+
+        echo json_encode($json);
+
+    }
+
 }
 

@@ -2,10 +2,10 @@ $(function(){
 
     //ACIONAR MODAL TRABALHO
     $("#btn_add_trampo").click(function(){
-        clearErros();
+        clearErros(); //limpa os erros
         $("#form_trampo")[0].reset(); //limpa todos os campos do tipo input no modal
         $("#trampo_img_path").attr("src", ""); //limpa o campo IMG
-        $("#modal_trampo").modal();
+        $("#modal_trampo").modal(); //Abre modal
     });
 
     //ACIONAR MODAL EQUIPE
@@ -13,12 +13,14 @@ $(function(){
         clearErros();
         $("#form_equipe")[0].reset(); //limpa todos os campos do tipo input no modal
         $("#membro_foto_path").attr("src", ""); //limpa o campo IMG
-        $("#modal_equipe").modal();
+        $("#modal_equipe").modal(); //Abre modal
     });
 
     //ACIONAR MODAL USUARIO
     $("#btn_add_usuario").click(function(){
-        $("#modal_usuario").modal();
+        clearErros(); //limpa os erros
+        $("#form_usuario")[0].reset(); //limpa todos os campos do tipo input no modal
+        $("#modal_usuario").modal(); //Abre modal
     });
 
     //ACIONA FUNÇÃO AJAX DO ARQUIVO UTIL.JS
@@ -80,6 +82,32 @@ $(function(){
                 clearErros();
                 if(response["status"]){
                     $("#modal_equipe").modal("hide"); //estando tudo certo, aqui fecha o modal após salvar
+                } else{
+                    showErrorsModal(response["error_list"]);
+                }
+            }
+        })
+        return false;
+    })
+
+    //Envio do formulário USUARIO =====================
+    $("#form_usuario").submit(function() {
+
+        $.ajax ({
+            type: "post",
+            url: BASE_URL + "/Restrict/ajax_save_user",
+            dataType: "json",
+            data: $(this).serialize(), //this significa #form_usuario
+
+            beforeSend: function(){
+                clearErros();
+                $("#btn_salvar_usuario").siblings(".help-block").html(loadingImg());
+            },
+
+            success: function(response) { //response é a resposta da função ajax_salvar_trabalho do controller
+                clearErros();
+                if(response["status"]){
+                    $("#modal_usuario").modal("hide"); //estando tudo certo, aqui fecha o modal após salvar
                 } else{
                     showErrorsModal(response["error_list"]);
                 }
