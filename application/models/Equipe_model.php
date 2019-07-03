@@ -12,9 +12,9 @@ class Equipe_model extends CI_Model{
     //Parametro $select = NULL é padrão
     public function get_data($id){
 
-    //traz uma ou todas as informações da tabela
-    $this->db->from("equipe");
-    $this->db->where("membro_id", $id);
+        //traz uma ou todas as informações da tabela
+        $this->db->from("equipe");
+        $this->db->where("membro_id", $id);
     return $this->db->get();
     }
 

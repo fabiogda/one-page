@@ -21,9 +21,19 @@ class Restrict extends CI_Controller {
     //Se estiver direciona para a página RESTRITO.
     if ($this->session->userdata("user_id")) {
         $data = array(
+            //Inserção de componentes CSS 
+            "styles" => array(
+                "dataTables.bootstrap.min.css",
+                "datatables.min.css"             
+            ),
+
+            //Inserção de componentes javascript
             "scripts" => array(
-            "util.js",
-            "restrito.js"
+                "sweetalert2.all.min.js",
+                "datatables.min.js",
+                "dataTables.bootstrap.min.js",             
+                "util.js",
+                "restrito.js"
             ),
             "user_id" => $this->session->userdata("user_id") //transforma em variavel para o PHP
         );
