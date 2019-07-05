@@ -15,7 +15,7 @@ class Trampo_model extends CI_Model{
         //traz uma ou todas as informações da tabela
         $this->db->from("trabalho");
         $this->db->where("trabalho_id", $id);
-    return $this->db->get();
+        return $this->db->get();
     }
 
     //Função para INSERIR dados ==========
@@ -49,6 +49,9 @@ class Trampo_model extends CI_Model{
         return $this->db->get()->num_rows() > 0; //se for maior que zero, está duplicado, retornando como verdadeiro
     }
 
+    //==========================================================================================================================================================
+    //==============================================  DATATABLE ================================================================================================
+    //==========================================================================================================================================================
     /* CAMPOS VIA POST (DATATABLE)
         DATATABLE
     $_POST['search']['value'] = campo de busca

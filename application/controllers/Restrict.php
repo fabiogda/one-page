@@ -11,44 +11,44 @@ class Restrict extends CI_Controller {
 
     //Função que verifica se o USUARIO esta LOGADO ========================
     public function index(){
-    //echo password_hash ("123456", PASSWORD_DEFAULT); //codifica a senha
-    //Testa a conexão passando como parametro o ID
-    //$this->load->model("users_model");
-    //echo "<pre>";
-    //print_r ($this->users_model->get_user_data("fabioga"));
-    
-    //Este IF serve para identificar se o usuário está logado
-    //Se estiver direciona para a página RESTRITO.
-    if ($this->session->userdata("user_id")) {
-        $data = array(
-            //Inserção de componentes CSS 
-            "styles" => array(
-                "dataTables.bootstrap.min.css",
-                "datatables.min.css"             
-            ),
+        //echo password_hash ("123456", PASSWORD_DEFAULT); //codifica a senha
+        //Testa a conexão passando como parametro o ID
+        //$this->load->model("users_model");
+        //echo "<pre>";
+        //print_r ($this->users_model->get_user_data("fabioga"));
+        
+        //Este IF serve para identificar se o usuário está logado
+        //Se estiver direciona para a página RESTRITO.
+        if ($this->session->userdata("user_id")) {
+            $data = array(
+                //Inserção de componentes CSS 
+                "styles" => array(
+                    "dataTables.bootstrap.min.css",
+                    "datatables.min.css"             
+                ),
 
-            //Inserção de componentes javascript
-            "scripts" => array(
-                "sweetalert2.all.min.js",
-                "datatables.min.js",
-                "dataTables.bootstrap.min.js",             
+                //Inserção de componentes javascript
+                "scripts" => array(
+                    "sweetalert2.all.min.js",
+                    "datatables.min.js",
+                    "dataTables.bootstrap.min.js",             
+                    "util.js",
+                    "restrito.js"
+                ),
+                "user_id" => $this->session->userdata("user_id") //transforma em variavel para o PHP
+            );
+            $this->template->show("restrito.php", $data);
+        //Se não estiver logado, é carregado a tela de login
+        }else{
+            //Assim que a pagina login.php é requisitada, a mesma carrega acrescentando 2 arquivos scripts
+            $data = array(
+                "scripts" => array(
                 "util.js",
-                "restrito.js"
-            ),
-            "user_id" => $this->session->userdata("user_id") //transforma em variavel para o PHP
-        );
-        $this->template->show("restrito.php", $data);
-    //Se não estiver logado, é carregado a tela de login
-    }else{
-        //Assim que a pagina login.php é requisitada, a mesma carrega acrescentando 2 arquivos scripts
-        $data = array(
-            "scripts" => array(
-            "util.js",
-            "login.js"
-            ),
-        );
-        $this->template->show("login.php",$data);
-    }
+                "login.js"
+                ),
+            );
+            $this->template->show("login.php",$data);
+        }
     }
 
     //Função que destroy a sessão, encerrando acesso ============================
@@ -412,5 +412,75 @@ class Restrict extends CI_Controller {
 
     }
 
+    //Função que LISTA os dados no datatable =========================================
+    public function ajax_list_trampo(){
+        //Verifica se este controller está sendo acessado diretamente
+        //Se for passado por JSON é permitido o acesso.
+        if (!$this->input->is_ajax_request()){
+            exit("Você foi impedido de acessar a requisição diretamente!");
+        }
+
+        //Carregar banco TRABALHO
+        $this->load->model("trampo_model");
+        //recebe resultado da model
+        $trampos = $this->trampo_model->get_datatable();
+
+        //Variavel array VAZIA
+        $data = array();
+
+        //percorrendo os dados que estão armazenados na variavel $trampos
+        foreach ($trampos as $trampo){
+
+            //é criado uma variavel array vazia para receber as infomações
+            $row = array();
+
+            //Iniciado a listagem dos dados conforme as COLUNAS que estão no banco para a tabela do HTML
+            //Retornando o NOME
+            $row = $trampo->trampo_nome;
+
+            //Retornando IMAGEM se a mesma EXISTIR
+            if ($trampo->trampo_img){
+                $row[] = '<img src="'.base_url().$trampo->trampo_img.'" style="max-heigh: 100px; max-width: 100px;>';
+            } else{
+                $row[] = "";
+            }
+
+            //Retornando a DURAÇÃO
+            $row = $trampo->trampo_duracao;
+            
+            //Retornando a DESCRIÇÃO
+            $row = '<div class="description">'.$trampo->trampo_descricao.'</div>';
+
+            //INSERINDO 2 botões [EDITAR/EXCLUIR]
+            $row[] = '<div style="display: inline-block;>
+                        <button class="btn btn-primary btn-edit-trampo" 
+                        trampo_id="'.$trampo->trampo_id.'"
+                        <i class="fa fa-edit"></i>
+                        </button>
+                        
+                        <button class="btn btn-danger btn-del-trampo" 
+                        trampo_id="'.$trampo->trampo_id.'"
+                        <i class="fa fa-edit"></i>
+                        </button>
+                    </div>';
+            //Variavel que foi criada no inicio da função, recebe os dados filtrados pelo foreach (na linha nome/img/duracao/descricao)
+            $data[] = $row;
+        } //fim do foreach
+
+        //Variavel JSON criada como array para RETORNAR os dados para o DATATABLE
+        //Draw / recordsTotal / recordsFiltered são metodos utilizados no DATATABLE
+        //Data são os campos filtrados
+        //Draw é um campo necessário para serviço SERVER-SIDE
+        $json =array(
+            "draw" => $this->input->post("draw"),
+            "recordsTotal" => $this->trampo_model->records_total(), //retorna todos os resultados como numero
+            "recordsFiltered" => $this->trampo_model->records_filtered(), //retorna o numero de linhas
+            "data" => $data, //retorna os dados dessa função
+        );
+
+        //codifica o arquivo JSON
+        echo json_encode($json);
+    } // fim da função
+//fim do controller    
 }
 

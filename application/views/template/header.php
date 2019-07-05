@@ -48,7 +48,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand page-scroll" href="#page-top"><img src="<?php echo base_url(); ?>public/images/path93.png" alt="Biologia <3"></a>
+					<a class="navbar-brand page-scroll" href="<?php echo base_url(); ?>#page-top"><img src="<?php echo base_url(); ?>public/images/path93.png" alt="Biologia <3"></a>
 				</div>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
